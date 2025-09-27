@@ -20,6 +20,9 @@ $routes->group('dashboard', static function ($routes) {
 
     $routes->group('events', ['filter' => 'organizer'], static function ($routes) {
         $routes->get('/', [EventsController::class, 'index'], ['as' => 'dashboard.events']);
+        $routes->get('new', [EventsController::class, 'new'], ['as' => 'dashboard.events.new']);
+        $routes->get('show/(:segment)', [EventsController::class, 'show/$1'], ['as' => 'dashboard.events.show']);
+        $routes->post('create', [EventsController::class, 'create'], ['as' => 'dashboard.events.create']);
     });
 
 
