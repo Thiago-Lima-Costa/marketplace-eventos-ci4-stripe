@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Entities\Event;
 use App\Models\Basic\AppModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
+use CodeIgniter\I18n\Time;
 
 class EventModel extends AppModel
 {
@@ -29,5 +30,16 @@ class EventModel extends AppModel
     public function getByCode(string $code): Event
     {
         return $this->where('code', $code)->first() ?? throw new PageNotFoundException("Evento {$code} não encontrado");
+    }
+
+    public function getValidEvents(): array
+    {
+        return $this->whereValidDates()->orderBy('start_date', 'ASC')->findAll();
+    }
+
+    public function whereValidDates(): self
+    {
+        $this->where('end_date >=', Time::now()->toDateTimeString());
+        return $this;
     }
 }

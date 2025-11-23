@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Entities\Event;
 use App\Models\EventModel;
+use App\Services\Event\EventStoreService;
 use App\Validation\EventValidation;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -40,6 +41,18 @@ class EventsController extends BaseController
         return view('Dashboard/Events/form', $data);
     }
 
+    public function show(string $code)
+    {
+        $event = $this->model->whereUser()->getByCode(code: $code);
+
+        $data = [
+            'title' => 'Detalhes do evento',
+            'event' => $event,
+        ];
+
+        return view('Dashboard/Events/show', $data);
+    }
+
     public function create(): ResponseInterface
     {
         $rules = (new EventValidation)->getRules();
@@ -52,17 +65,18 @@ class EventsController extends BaseController
             ], 400, 'Erros de validação');
         }
 
-        $inputRequest = $this->request->getPost;
+        $result = (new EventStoreService)->create();
 
-        echo '<pre>';
-        print_r($inputRequest);
-        exit;
+        if(! $result instanceof Event) {
+            return $this->failServerError(description: 'Erro ao criar evento', code: 500, message: 'Erro ao criar evento');
+        }
 
-        // $data = [
-        //     'title' => 'Criar novo evento',
-        //     'route' => route_to('dashboard.events.create')
-        // ];
+        session()->setFlashdata('success', 'Sucesso');
 
-        // return view('Dashboard/Events/form', $data);
+        return $this->respondCreated(data: [
+            'success' => true,
+            'redirect' => route_to('dashboard.events.show', $result->code),
+            'message' => 'Sucesso',
+        ]);
     }
 }

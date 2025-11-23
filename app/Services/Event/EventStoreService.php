@@ -30,7 +30,7 @@ class EventStoreService
         $this->eventModel = model(EventModel::class);
         $this->sectorModel = model(SectorModel::class);
         $this->inputRequest = service('request')->getPost();
-        $this->image = service('request')->getFile();
+        $this->image = service('request')->getFile('image');
     }
 
     public function create(): Event|bool
@@ -102,7 +102,11 @@ class EventStoreService
                      throw new Exception("Erro ao criar o setor");
                 }
 
-                $this->createRowsAndSeats(sectorId: $sectorId, rowsCount: $rowsCount[$index], seatCount: $seatsCount[$index]);
+                $this->createRowsAndSeats(
+                    sectorId: $sectorId, 
+                    rowsCount: (int) $rowsCount[$index], 
+                    seatCount: (int) $seatsCount[$index]
+                );
 
             }
 
@@ -130,7 +134,7 @@ class EventStoreService
             $rowId = $rowModel->insert(
                 new Row([
                     'sector_id' => $sectorId,
-                    'name' => 'Fila ' + ($row +1),
+                    'name' => 'Fila ' . ($row +1),
                 ])
                 );
 
@@ -144,7 +148,7 @@ class EventStoreService
 
                 $dataSeatsToInsert[] = new Seat([
                     'row_id' => $rowId,
-                    'number' => $seat +1, 
+                    'number' => ($seat +1), 
                 ]);
 
             }
@@ -193,7 +197,7 @@ class EventStoreService
                 $start->modify('+1 day');
             };
 
-            if (!empty($days)) {
+            if (empty($days)) {
                 throw new Exception("Não foi gerado nenhum dia de apresentação");
             }
 

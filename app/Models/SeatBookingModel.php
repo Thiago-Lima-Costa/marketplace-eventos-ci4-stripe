@@ -15,7 +15,7 @@ class SeatBookingModel extends AppModel
     }
 
 
-    protected $table            = 'seat_booking';
+    protected $table            = 'seat_bookings';
     protected $returnType       = SeatBooking::class;
     protected $allowedFields    = [
         'seat_id',
