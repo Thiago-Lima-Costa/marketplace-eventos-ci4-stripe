@@ -47,7 +47,7 @@
                     <?php echo $event->image(class: 'img-event card-img-top img-fluid'); ?>
                     <h2 class="fs-4 fw-bold"><?php echo $event->name; ?></h2>
                     <p class="mb-0"><?php echo ellipsize($event->description, 100); ?></p>
-                    <a class="btn btn-primary mt-3" href="<?php echo route_to('events.show') ?>">Mais detalhes</a>
+                    <a class="btn btn-primary mt-3" href="<?php echo route_to('events.show', $event->code) ?>">Mais detalhes</a>
                 </div>
             </div>
         </div>

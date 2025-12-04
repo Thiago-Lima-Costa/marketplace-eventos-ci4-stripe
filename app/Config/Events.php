@@ -2,9 +2,12 @@
 
 namespace Config;
 
+use App\Enums\StatusSeatBooking;
+use App\Models\SeatBookingModel;
 use CodeIgniter\Events\Events;
 use CodeIgniter\Exceptions\FrameworkException;
 use CodeIgniter\HotReloader\HotReloader;
+use CodeIgniter\I18n\Time;
 
 /*
  * --------------------------------------------------------------------
@@ -24,6 +27,14 @@ use CodeIgniter\HotReloader\HotReloader;
  */
 
 Events::on('pre_system', static function (): void {
+
+    // Remove as reservas expiradas e não pagas
+    model(SeatBookingModel::class)
+        ->where('expire_at <', Time::now()->toDateTimeString())
+        ->where('status', StatusSeatBooking::Reserved->value)
+        ->delete();
+
+
     if (ENVIRONMENT !== 'testing') {
         if (ini_get('zlib.output_compression')) {
             throw FrameworkException::forEnabledZlibOutputCompression();

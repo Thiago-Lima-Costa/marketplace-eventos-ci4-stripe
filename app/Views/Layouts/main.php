@@ -7,7 +7,7 @@
         <meta name="author" content="" />
         <title><?php echo $this->renderSection('title'); ?></title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets_main') ?>favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="<?php echo base_url('assets_main/') ?>favicon.ico" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.min.css" integrity="sha512-UiKdzM5DL+I+2YFxK+7TDedVyVm7HMp/bN85NeWMJNYortoll+Nd6PU9ZDrZiaOsdarOyk9egQm6LOJZi36L2g==" crossorigin="anonymous" referrerpolicy="no-referrer" />

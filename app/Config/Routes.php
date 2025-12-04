@@ -1,10 +1,12 @@
 <?php
 
 use App\Controllers\Api\ApiEventLayoutController;
+use App\Controllers\Api\ApiReserveSeatsController;
 use App\Controllers\DashboardController;
 use App\Controllers\EventsController;
 use App\Controllers\HomeController;
 use App\Controllers\OrganizerController;
+use App\Controllers\ShowEventController;
 use CodeIgniter\Router\RouteCollection;
 
 /**
@@ -42,5 +44,17 @@ $routes->group('api', static function ($routes) {
         $routes->get('layout/(:segment)', [ApiEventLayoutController::class, 'layout/$1'], ['as' => 'api.events.layout']);
 
     });
+
+    $routes->group('seats', static function ($routes) {
+
+        $routes->post('action', [ApiReserveSeatsController::class, 'action'], ['as' => 'api.seats.action']);
+
+    });
+
+});
+
+$routes->group('events', static function ($routes) {
+
+    $routes->get('(:segment)', [ShowEventController::class, 'index/$1'], ['as' => 'events.show']);
 
 });

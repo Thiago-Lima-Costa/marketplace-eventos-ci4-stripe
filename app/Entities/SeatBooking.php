@@ -11,6 +11,13 @@ class SeatBooking extends Entity
     protected $dates   = ['created_at', 'updated_at'];
     protected $casts   = [];
 
+    public function setPrice(string|int $price): self
+    {
+        $price = remove_non_numeric($price);
+        $this->attributes['price'] = intval($price);
+        return $this;
+    }
+
     public function type(): string
     {
         return $this->type === 'full' ? 'Inteira' : 'Meia';

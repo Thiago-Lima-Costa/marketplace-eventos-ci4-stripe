@@ -146,9 +146,8 @@ class SeatRenderService
                 $title = 'Disponível';
                 $seatCodeAttribute = "data-seat={$seatCode}";
 
-                /** @var SeatBooking $booking */
                 foreach($dayBookings as $booking){
-
+ 
                     if($booking->isSold() || $booking->isPending()) {
                         $btnClass = 'btn-danger';
                         $title = $booking->status();
@@ -157,9 +156,10 @@ class SeatRenderService
                     }
 
                     if($booking->isReserved()){
+                       
                         $btnClass = 'btn-warning text-dark ';
                         $btnClass .= $this->loggedUserId === (int) $booking->user_id ? 'btn-seat seat-session-reserved' : '';
-                        $title = $this->loggedUserId === (int) $booking->user_id ? "Esse assento ficará reservado para você até? {$booking->expire_at}" : $booking->status();
+                        $title = $this->loggedUserId === (int) $booking->user_id ? "Esse assento ficará reservado para você até: {$booking->expire_at}" : $booking->status();
                         break;
                     }
                 }
