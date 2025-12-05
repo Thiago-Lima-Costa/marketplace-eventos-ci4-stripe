@@ -2,6 +2,7 @@
 
 use App\Controllers\Api\ApiEventLayoutController;
 use App\Controllers\Api\ApiReserveSeatsController;
+use App\Controllers\CartController;
 use App\Controllers\DashboardController;
 use App\Controllers\EventsController;
 use App\Controllers\HomeController;
@@ -56,5 +57,12 @@ $routes->group('api', static function ($routes) {
 $routes->group('events', static function ($routes) {
 
     $routes->get('(:segment)', [ShowEventController::class, 'index/$1'], ['as' => 'events.show']);
+
+});
+
+$routes->group('cart', static function ($routes) {
+
+    $routes->get('/', [CartController::class, 'index'], ['as' => 'cart']);
+    $routes->delete('destroy/(:num)', [CartController::class, 'destroy/$1'], ['as' => 'cart.destroy']);
 
 });
