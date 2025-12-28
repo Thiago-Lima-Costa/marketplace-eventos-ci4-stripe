@@ -3,6 +3,7 @@
 use App\Controllers\Api\ApiEventLayoutController;
 use App\Controllers\Api\ApiReserveSeatsController;
 use App\Controllers\CartController;
+use App\Controllers\CheckoutController;
 use App\Controllers\DashboardController;
 use App\Controllers\EventsController;
 use App\Controllers\HomeController;
@@ -64,5 +65,12 @@ $routes->group('cart', static function ($routes) {
 
     $routes->get('/', [CartController::class, 'index'], ['as' => 'cart']);
     $routes->delete('destroy/(:num)', [CartController::class, 'destroy/$1'], ['as' => 'cart.destroy']);
+
+});
+
+$routes->group('checkout', static function ($routes) {
+
+    $routes->get('/', [CheckoutController::class, 'index'], ['as' => 'checkout']);
+    $routes->get('success', [CheckoutController::class, 'success'], ['as' => 'checkout.success']);
 
 });
