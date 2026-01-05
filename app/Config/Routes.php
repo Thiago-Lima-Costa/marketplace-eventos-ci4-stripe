@@ -7,6 +7,7 @@ use App\Controllers\CheckoutController;
 use App\Controllers\DashboardController;
 use App\Controllers\EventsController;
 use App\Controllers\HomeController;
+use App\Controllers\OrdersController;
 use App\Controllers\OrganizerController;
 use App\Controllers\ShowEventController;
 use CodeIgniter\Router\RouteCollection;
@@ -22,7 +23,6 @@ $routes->group('dashboard', static function ($routes) {
 
     $routes->get('/', [DashboardController::class, 'index'], ['as' => 'dashboard']);
 
-    // TODO aplicar filtro 'organizer'
     $routes->group('events', ['filter' => 'organizer'], static function ($routes) {
         $routes->get('/', [EventsController::class, 'index'], ['as' => 'dashboard.events']);
         $routes->get('new', [EventsController::class, 'new'], ['as' => 'dashboard.events.new']);
@@ -30,12 +30,17 @@ $routes->group('dashboard', static function ($routes) {
         $routes->post('create', [EventsController::class, 'create'], ['as' => 'dashboard.events.create']);
     });
 
-
     $routes->group('organizer', static function ($routes) {
         $routes->get('/', [OrganizerController::class, 'edit'], ['as' => 'dashboard.organizer']);
         $routes->get('panel', [OrganizerController::class, 'panel'], ['as' => 'dashboard.organizer.panel']);
         $routes->post('create', [OrganizerController::class, 'create'], ['as' => 'dashboard.organizer.create.account']);
         $routes->put('check', [OrganizerController::class, 'check'], ['as' => 'dashboard.organizer.check.account']);
+    });
+
+    $routes->group('orders', static function ($routes) {
+        $routes->get('/', [OrdersController::class, 'index'], ['as' => 'orders.events']);
+        $routes->get('show/(:segment)', [OrdersController::class, 'show/$1'], ['as' => 'dashboard.orders.show']);
+         $routes->get('print/(:segment)', [OrdersController::class, 'print/$1'], ['as' => 'dashboard.orders.print']);
     });
 });
 

@@ -74,7 +74,6 @@ class PaymentService extends BaseService
             return false;
         }
 
-        return '';
     }
 
     public function getSession(string $sessionId, string $stripeAccountId): Session
