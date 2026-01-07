@@ -38,7 +38,7 @@ $routes->group('dashboard', static function ($routes) {
     });
 
     $routes->group('orders', static function ($routes) {
-        $routes->get('/', [OrdersController::class, 'index'], ['as' => 'orders.events']);
+        $routes->get('/', [OrdersController::class, 'index'], ['as' => 'dashboard.orders']);
         $routes->get('show/(:segment)', [OrdersController::class, 'show/$1'], ['as' => 'dashboard.orders.show']);
          $routes->get('print/(:segment)', [OrdersController::class, 'print/$1'], ['as' => 'dashboard.orders.print']);
     });

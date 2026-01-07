@@ -25,9 +25,15 @@ class OrderModel extends AppModel
         'total',
     ];
 
-    public function getByCode(string $code): Order
+    public function getByCode(string $code, bool $withSeats = false): Order
     {
-        return $this->where('code', $code)->first() ?? throw new PageNotFoundException("Pedido {$code} não encontrado");
+        $order = $this->where('code', $code)->first() ?? throw new PageNotFoundException("Pedido {$code} não encontrado");
+
+        if($withSeats) {
+            $order->seats = model(OrderItemModel::class)->where('order_id', $order->id)->findAll();
+        }
+
+        return $order;
     }
 
 }
